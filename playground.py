@@ -22,13 +22,7 @@ option_expiration = "2021-02-19"
 
 
 failed_symbols = []
-symbols = []
-
-screener = requests.get(
-    f'https://financialmodelingprep.com/api/v3/stock-screener?marketCapMoreThan={market_cap}&exchange=nasdaq,nyse,amex&volumeMoreThan{volume}priceMoreThan={low_price}&priceLowerThan={high_price}&apikey={api_key}').json()
-for item in screener:
-    symbols.append(item['symbol'])
-
+symbols = ['ETRN']
 
 counter = len(symbols)
 print("There are", len(symbols), "tickers available.")
@@ -39,10 +33,13 @@ for symbol in symbols:
     try:
 
         ticker = yf.Ticker(symbol)
+
+        day_200 = ticker.history(period="6mo")
+        print(type(day_200))
+
         previous_close = ticker.get_info()['previousClose']
 
         current_puts = ticker.option_chain().puts
-
         puts_strike_bid = current_puts.filter(items=['strike', 'bid'])
         greater_than_prev_close = puts_strike_bid[puts_strike_bid['strike']
                                                   > previous_close].iloc[0]
@@ -53,6 +50,10 @@ for symbol in symbols:
         initial_investment = previous_close
         max_profit = (max_value/initial_investment) - 1
         min_profit = next_bid / previous_close
+
+        print(next_strike)
+        print(next_bid)
+        print(min_profit)
 
         if min_profit > 0.08 and previous_close < high_price:
             data['potential_calls'].append({
@@ -69,9 +70,6 @@ for symbol in symbols:
         failed_symbols.append(symbol)
 
 
-print('{} symbols were added'.format(len(data['potential_calls'])))
-print('{} symbols did not have options.'.format(len(failed_symbols)))
-print(failed_symbols)
-
-with open('covered_calls.json', 'w') as outfile:
-    json.dump(data, outfile)
+# print('{} symbols were added'.format(len(data['potential_calls'])))
+# print('{} symbols did not have options.'.format(len(failed_symbols)))
+# print(failed_symbols)
