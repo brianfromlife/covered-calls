@@ -7,7 +7,7 @@ data = {}
 
 data['potential'] = []
 
-api_key = 'b405521b03d12f6fc0295bded0099e3b'
+api_key = ''
 
 low_price = 5
 high_price = 15
