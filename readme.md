@@ -2,7 +2,7 @@
 
 Before running this script please make sure you have python 3.8+ installed.
 
-If you are not familiar with code, I would highly recommend installing `Visual Studio Code` to peform these steps.
+If you are not familiar with code, I would highly recommend installing `Visual Studio Code` to perform the steps below.
 
 This script will screen FMP for stocks with a $2B+ market cap, volume more than 500,000, a minimum price of $5 and a maximum price of $15.
 
