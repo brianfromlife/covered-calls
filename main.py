@@ -1,10 +1,11 @@
-import yfinance as yf
 import requests
 import json
 import time
 import os
-
 from dotenv import load_dotenv
+import yfinance as yf
+
+
 load_dotenv()
 
 data = {}
@@ -17,7 +18,9 @@ low_price = 5
 high_price = 15
 market_cap = 2000000000
 volume = 500000
-counter = 0
+option_expiration = "2021-02-19"
+
+
 failed_symbols = []
 symbols = []
 
@@ -26,14 +29,18 @@ screener = requests.get(
 for item in screener:
     symbols.append(item['symbol'])
 
+
+counter = len(symbols)
 print("There are", len(symbols), "tickers available.")
 
 for symbol in symbols:
+    counter = counter-1
+    print(len(symbols) - counter, "of", len(symbols))
     try:
 
         ticker = yf.Ticker(symbol)
         previous_close = ticker.get_info()['previousClose']
-        current_puts = ticker.option_chain().puts
+        current_puts = ticker.option_chain(date=option_expiration).puts
         puts_strike_bid = current_puts.filter(items=['strike', 'bid'])
         greater_than_prev_close = puts_strike_bid[puts_strike_bid['strike']
                                                   > previous_close].iloc[0]
@@ -55,8 +62,6 @@ for symbol in symbols:
                 "min_profit": "{:.2%}".format(min_profit)
             })
 
-        counter = counter+1
-        print(counter, "of", len(symbols))
         time.sleep(5)
     except Exception as e:
         failed_symbols.append(symbol)
@@ -65,5 +70,5 @@ for symbol in symbols:
 print('{} symbols were added'.format(len(data['potential_calls'])))
 print('{} symbols failed.'.format(len(failed_symbols)))
 
-with open('data.json', 'w') as outfile:
+with open('covered_calls.json', 'w') as outfile:
     json.dump(data, outfile)
