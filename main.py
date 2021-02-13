@@ -45,7 +45,7 @@ for symbol in symbols:
         max_profit = (max_value/initial_investment) - 1
         min_profit = next_bid / previous_close
 
-        if min_profit > 0.08:
+        if min_profit > 0.08 and previous_close < high_price:
             data['potential_calls'].append({
                 "ticker": symbol,
                 "close": previous_close,
