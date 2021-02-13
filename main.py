@@ -2,12 +2,16 @@ import yfinance as yf
 import requests
 import json
 import time
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
 
 data = {}
 
 data['potential'] = []
 
-api_key = ''
+api_key = os.getenv("api_key")
 
 low_price = 5
 high_price = 15
@@ -41,7 +45,7 @@ for symbol in symbols:
         max_profit = (max_value/initial_investment) - 1
         min_profit = next_bid / previous_close
 
-        if min_profit > 0.07:
+        if min_profit > 0.08:
             data['potential'].append({
                 "ticker": symbol,
                 "close": previous_close,
