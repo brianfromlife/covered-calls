@@ -9,7 +9,7 @@ load_dotenv()
 
 data = {}
 
-data['potential'] = []
+data['potential_calls'] = []
 
 api_key = os.getenv("api_key")
 
@@ -46,7 +46,7 @@ for symbol in symbols:
         min_profit = next_bid / previous_close
 
         if min_profit > 0.08:
-            data['potential'].append({
+            data['potential_calls'].append({
                 "ticker": symbol,
                 "close": previous_close,
                 "strike": next_strike,
@@ -62,7 +62,7 @@ for symbol in symbols:
         failed_symbols.append(symbol)
 
 
-print('{} symbols were added'.format(len(data['potential'])))
+print('{} symbols were added'.format(len(data['potential_calls'])))
 print('{} symbols failed.'.format(len(failed_symbols)))
 
 with open('data.json', 'w') as outfile:
