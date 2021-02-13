@@ -4,7 +4,7 @@ Before running this script please make sure you have python 3.8+ installed.
 
 If you are not familiar with code, I would highly recommend installing `Visual Studio Code` to perform the steps below.
 
-This script will screen FMP for stocks with a $2B+ market cap, volume more than 500,000, a minimum price of $5 and a maximum price of $15.
+This script will screen FMP for stocks with a $2B+ market cap, volume more than 500,000, a minimum price of $5 and a maximum price of $15. Then it will check the Yahoo Finance Options Chain for a certain expiration date and grab the nearest strike price of the previous close.
 
 Note: You can change the above criteria by editing lines 17-21 in `main.py`.
 
