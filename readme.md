@@ -11,5 +11,6 @@ Note: You can change the above criteria by editing lines 17-21 in `main.py`.
 1. generate a free API Key from `https://financialmodelingprep.com/`.
 2. Create a file called `.env` in this folder.
 3. Add `api_key=XXX` to the `.env` file. Replace `XXX` with the API Key from FMP.
-4. In the terminal, run `python main.py`. The terminal should begin to show progress.
-5. After the script is finished a file named `covered_calls.json` will appear in the folder with the list of potential covered calls with a minimum profit of 8% or more.
+4. Run the command `pip install -r requirements.txt`.
+5. In the terminal, run `python main.py`. The terminal should begin to show progress.
+6. After the script is finished a file named `covered_calls.json` will appear in the folder with the list of potential covered calls with a minimum profit of 8% or more.

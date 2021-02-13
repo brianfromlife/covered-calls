@@ -25,7 +25,7 @@ failed_symbols = []
 symbols = []
 
 screener = requests.get(
-    f'https://financialmodelingprep.com/api/v3/stock-screener?marketCapMoreThan={market_cap}&exchange=nasdaq&volumeMoreThan{volume}priceMoreThan={low_price}&priceLowerThan={high_price}&apikey={api_key}').json()
+    f'https://financialmodelingprep.com/api/v3/stock-screener?marketCapMoreThan={market_cap}&exchange=nasdaq,nyse&volumeMoreThan{volume}priceMoreThan={low_price}&priceLowerThan={high_price}&apikey={api_key}').json()
 for item in screener:
     symbols.append(item['symbol'])
 
@@ -68,7 +68,8 @@ for symbol in symbols:
 
 
 print('{} symbols were added'.format(len(data['potential_calls'])))
-print('{} symbols failed.'.format(len(failed_symbols)))
+print('{} symbols did not have options.'.format(len(failed_symbols)))
+print(failed_symbols)
 
 with open('covered_calls.json', 'w') as outfile:
     json.dump(data, outfile)
