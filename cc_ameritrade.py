@@ -58,7 +58,9 @@ for symbol in symbols:
         except Exception as e:
             pass
 
-        previous_close = ticker.get_info()['previousClose']
+        ticker_info = ticker.get_info()
+
+        previous_close = ticker_info['previousClose']
 
         current_puts = ticker.option_chain().puts
 
@@ -108,12 +110,11 @@ for symbol in symbols:
 
         time.sleep(5)
     except Exception as e:
-        failed_symbols.append(symbol)
+        pass
 
 
 print('{} symbols were added'.format(len(data['potential_calls'])))
-print('{} symbols did not have options.'.format(len(failed_symbols)))
-print(failed_symbols)
 
-with open('test.json', 'w') as outfile:
+
+with open('TD_CC.json', 'w') as outfile:
     json.dump(data, outfile)
