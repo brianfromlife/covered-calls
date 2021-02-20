@@ -17,11 +17,11 @@ api_key = os.getenv("api_key")
 td_consumer_key = os.getenv('td_consumer_key')
 
 low_price = 5
-high_price = 15
+high_price = 20
 market_cap = 2000000000
 volume = 500000
 expiration_length = 'monthly'
-option_expiration = '2021-02-19'
+option_expiration = '2021-03-19'
 
 min_profit_pct = 0.08
 
@@ -66,7 +66,7 @@ for symbol in symbols:
 
         base_url = 'https://api.tdameritrade.com/v1/marketdata/chains?&symbol={stock_ticker}'
         endpoint = base_url.format(stock_ticker=symbol,
-                                   contractType='PUT',
+                                   contractType='Call',
                                    date=option_expiration)
 
         page = requests.get(url=endpoint,
