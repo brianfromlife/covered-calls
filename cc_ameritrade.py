@@ -117,7 +117,7 @@ for symbol in symbols:
         max_profit = (max_value/initial_investment) - 1
         min_profit = final_bid / previous_close
 
-        if min_profit > min_profit_pct and previous_close < high_price and day_18.mean() > day_50.mean() > day_200.mean():
+        if min_profit > min_profit_pct and previous_close < high_price and day_50.mean() > day_200.mean():
             data['potential_calls'].append({
                 "ticker": symbol,
                 "close": previous_close,
@@ -127,7 +127,7 @@ for symbol in symbols:
                 "min_profit": "{:.2%}".format(min_profit)
             })
 
-        time.sleep(5)
+        time.sleep(random.uniform(2, 4))
     except Exception as e:
         pass
 
