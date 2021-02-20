@@ -3,13 +3,20 @@ import json
 import time
 import traceback
 import os
+import sys
+import json
+from datetime import datetime
 from dotenv import load_dotenv
+from os import path
 import yfinance as yf
 
 
 load_dotenv()
 
-data = {}
+data = {
+    "last_run": None
+}
+
 
 data['potential_calls'] = []
 
@@ -32,6 +39,20 @@ if expiration_length == "weekly":
 failed_symbols = []
 symbols = []
 
+file = None
+file_name = "TD_CC.json"
+
+if path.exists(file_name):
+    with open(file_name) as f:
+        file = json.load(f)
+
+if file and file["last_run"] == str(datetime.today().date()):
+    print("You already have up to date stocks.")
+    sys.exit()
+
+data["last_run"] = str(datetime.today().date())
+
+
 screener = requests.get(
     f'https://financialmodelingprep.com/api/v3/stock-screener?marketCapMoreThan={market_cap}&isActivelyTrading=true&exchange=nasdaq,nyse&volumeMoreThan={volume}&priceMoreThan={low_price}&priceLowerThan={high_price}&apikey={api_key}').json()
 for item in screener:
@@ -45,9 +66,7 @@ for symbol in symbols:
     counter = counter-1
     print(len(symbols) - counter, "of", len(symbols))
     try:
-
         ticker = yf.Ticker(symbol)
-
         try:
             day_200 = ticker.history(period="200d")["Close"].rolling(
                 200, min_periods=1).mean()
